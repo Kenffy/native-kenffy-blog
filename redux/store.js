@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import authReducer from './reducers/authReducer';
 import userReducer from './reducers/userReducer';
 import postReducer from './reducers/postReducer';
-import { verifyAuth } from './actions/authActions';
+//import { verifyAuth } from './actions/authActions';
 import appReducer from './reducers/appReducer';
 
 const rootReducer = combineReducers({ 
@@ -25,7 +25,7 @@ export function configureStore() {
       return store;
   }else{
     const store = createStore(rootReducer, applyMiddleware(...middleware));
-    store.dispatch(verifyAuth());
+    //store.dispatch(verifyAuth());
     return store;
   }
 }

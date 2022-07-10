@@ -1,5 +1,5 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './screens/HomeScreen';
@@ -14,6 +14,8 @@ import RegisterScreen from './screens/RegisterScreen';
 import { Provider } from "react-redux";
 import { configureStore } from './redux/store';
 import Navbar from './components/Navbar';
+
+import AppStack from './navigation/AppStack';
 
 const store = configureStore();
 
@@ -84,11 +86,10 @@ export const StackNavigator = () => {
 export default function App() {
   return (
     <Provider store={store}>
-      {/* <StatusBar style="auto" /> */}
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <Navbar />
       <NavigationContainer>
-        <StackNavigator />
+        <AppStack />
       </NavigationContainer>
     </Provider>
   );
