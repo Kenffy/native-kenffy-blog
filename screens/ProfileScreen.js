@@ -1,11 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styled from "styled-components/native";
 
 export default function ProfileScreen() {
   return (
     <Container>
-        <View>ProfileScreen</View>
+        <View>
+          <Text>ProfileScreen</Text>
+        </View>
     </Container>
   )
 };
@@ -14,3 +16,4 @@ export default function ProfileScreen() {
 const Container = styled.SafeAreaView`
     flex: 1;
 `;
+

@@ -1,5 +1,6 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native';
+import React from 'react';
+import styled from "styled-components/native";
 
 export default function LoginScreen() {
   return (
@@ -7,4 +8,8 @@ export default function LoginScreen() {
       <Text>LoginScreen</Text>
     </View>
   )
-}
+};
+
+const Container = styled.View`
+    flex: 1;
+`;

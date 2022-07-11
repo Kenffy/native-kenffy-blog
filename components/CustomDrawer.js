@@ -80,8 +80,8 @@ background-size: cover;
 `;
 
 const ProfileImage = styled.Image`
-height: 160px;
-width: 160px;
+height: 130px;
+width: 130px;
 border-radius: 5px;
 margin-bottom: 10px;
 `;
@@ -106,8 +106,8 @@ color: white;
 
 const Others = styled.View`
 padding: 0px 20px;
-padding-top: 20px;
-padding-bottom: 50px;
+padding-top: 10px;
+padding-bottom: 30px;
 `;
 
 const LogoutWrapper = styled.View`
