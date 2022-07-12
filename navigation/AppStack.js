@@ -12,6 +12,7 @@ import MessagesScreen from '../screens/MessagesScreen';
 import WriteScreen from '../screens/WriteScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import HomeStack from '../stacks/AppStacks';
 
 
 const Drawer = createDrawerNavigator();
@@ -35,7 +36,7 @@ const AuthStack = () => {
         }}>
         <Drawer.Screen
           name="HOME"
-          component={HomeScreen}
+          component={HomeStack}
           options={{
             drawerIcon: ({color}) => (
               <Ionicons name="home" size={22} color={color} />

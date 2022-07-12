@@ -4,103 +4,106 @@ import styled from "styled-components/native";
 import { getAllPostsAsync } from '../services/firestoreServices';
 import PostCard from './PostCard';
 
-export default class RecentPosts extends Component {
+// export default class RecentPosts extends Component {
 
-  constructor(){
-    super();
-    this.state = {
-      posts: [],
-      loading: false,
-    }
-  }
+//   constructor(){
+//     super();
+//     this.state = {
+//       posts: [],
+//       loading: false,
+//     }
+//   }
 
-  UNSAFE_componentWillMount(){
-    console.log('unsafe will mount')
-  }
+//   UNSAFE_componentWillMount(){
+//     console.log('unsafe will mount')
+//   }
 
-  componentDidMount(){
+//   componentDidMount(){
 
-    const loadAllPosts = async()=>{
-      this.setState({loading: true});
-      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
-      const res = await getAllPostsAsync(filter);
-      if(res){
-        this.setState({posts: res.posts});
-        this.setState({loading: false});
-      }
-    }
-    loadAllPosts();
-  }
-
-  render() {
-    return (
-      <Container>
-        <Header>RECENTS POSTS</Header>
-        {this.state.posts.length > 0 &&
-        <View>
-        {this.state.posts.map(post=>
-        (<PostCard post={post} key={post?.id}/>)
-        )}
-        </View>
-        }
-        {this.state.loading &&
-        <LoadingView>
-          <LoadingText>Loading...</LoadingText>
-        </LoadingView>
-        }
-        <MoreButton>
-          <ButtonText>More Posts</ButtonText>
-        </MoreButton>
-      </Container>
-    )
-  }
-}
-
-
-
-
-
-
-
-// export default function RecentPosts() {
-
-//   const [posts, setPosts] = useState([]);
-//   const [loading, setLoading] = useState(false);
-
-  
-
-//   useEffect(()=>{
 //     const loadAllPosts = async()=>{
-//       setLoading(true);
+//       this.setState({loading: true});
 //       const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
 //       const res = await getAllPostsAsync(filter);
 //       if(res){
-//         setPosts(res.posts);
-//         setLoading(false);
+//         this.setState({posts: res.posts});
+//         this.setState({loading: false});
 //       }
 //     }
 //     loadAllPosts();
-//   },[]);
+//   }
 
-
-//   return (
-//     <Container>
-//       <Header>RECENTS POSTS</Header>
-//       {posts.length > 0 &&
-//       <View>
-//         {posts.map(post=>
-//           (<PostCard post={post} key={post?.id} />)
+//   render() {
+//     return (
+//       <Container>
+//         <Header>RECENTS POSTS</Header>
+//         {this.state.posts.length > 0 &&
+//         <View>
+//         {this.state.posts.map(post=>
+//         (<PostCard post={post} key={post?.id}/>)
 //         )}
-//       </View>
-//       }
-//       {loading &&
-//       <LoadingView>
-//         <LoadingText>Loading...</LoadingText>
-//       </LoadingView>
-//       }
-//     </Container>
-//   )
+//         </View>
+//         }
+//         {this.state.loading &&
+//         <LoadingView>
+//           <LoadingText>Loading...</LoadingText>
+//         </LoadingView>
+//         }
+//         <MoreButton>
+//           <ButtonText>More Posts</ButtonText>
+//         </MoreButton>
+//       </Container>
+//     )
+//   }
 // }
+
+
+
+
+
+
+
+export default function RecentPosts({navigation}) {
+
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  
+
+  useEffect(()=>{
+    const loadAllPosts = async()=>{
+      setLoading(true);
+      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
+      const res = await getAllPostsAsync(filter);
+      if(res){
+        setPosts(res.posts);
+        setLoading(false);
+      }
+    }
+    loadAllPosts();
+  },[]);
+
+
+  return (
+    <Container>
+      <Header>RECENTS POSTS</Header>
+      {posts.length > 0 &&
+      <View>
+      {posts.map(post=>
+      (<PostCard post={post} key={post?.id} navigation={navigation}/>)
+      )}
+      </View>
+      }
+      {loading &&
+      <LoadingView>
+        <LoadingText>Loading...</LoadingText>
+      </LoadingView>
+      }
+      <MoreButton>
+        <ButtonText>More Posts</ButtonText>
+      </MoreButton>
+    </Container>
+  )
+}
 
 const Container = styled.View`
 padding: 10px;

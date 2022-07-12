@@ -7,12 +7,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HTMLView from 'react-native-htmlview';
 import Avatar from './Avatar';
 import { Image } from 'react-native-expo-image-cache';
+import { CategoryData } from '../seed/CategoryData';
 
 const width = Dimensions.get('window').width;
-const height = width / 2;
+const height = width / 1.8;
 
 
-export default function PostCard({post}) {
+export default function PostCard({post, navigation}) {
 
   const getVideoId = (url) =>{
     return url.split('watch?v=')[1];
@@ -27,6 +28,7 @@ export default function PostCard({post}) {
 
   const [toggle, setToggle] = useState(post?.video? true: false);
   const [playing, setPlaying] = useState(false);
+  const category = CategoryData.find(c=>c.name === post?.category) || CategoryData[1];
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
@@ -37,6 +39,7 @@ export default function PostCard({post}) {
 
   const handleOnPress = ()=>{
     console.log('go to single post.')
+    navigation.navigate('Single', {...post});
   }
 
   return (
@@ -48,13 +51,25 @@ export default function PostCard({post}) {
         videoId={post?.video.split('watch?v=')[1]}
         onChangeState={onStateChange}/>
         :
+        <>
+        {post?.images.length > 1 ?
+        <MediaImages
+        height={height}
+        dataSource={post?.images} />
+        :
+        <>
+        {post?.images.length === 0 ?
+        <CategoryImage height={height}
+          source={category?.icon}/>
+        :
         <Image 
-        style={{height}}
-        preview={{uri: post?.images[0]?.url}}
-        uri={post?.images[0]?.url}/>
-        // <MediaImages
-        // height={height}
-        // dataSource={post?.images} />
+          style={{height}}
+          preview={{uri: post?.images[0]?.url}}
+          uri={post?.images[0]?.url}/>}
+        </>
+        
+        }
+        </>
         }
       <InfoWrapper>
         <InfoItem>
@@ -139,6 +154,11 @@ const Container = styled.View`
 `;
 
 const MediaImages = styled(Slideshow)`
+height: ${props=> `${props.height}px`};
+`;
+
+const CategoryImage = styled.Image`
+width: 100%;
 height: ${props=> `${props.height}px`};
 `;
 

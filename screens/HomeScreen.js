@@ -16,7 +16,7 @@ export default function HomeScreen({navigation}) {
       <Navbar navigation={navigation}/>
       <ScrollView>
         <Header />
-        <RecentPosts />
+        <RecentPosts navigation={navigation}/>
         <RecentBloggers />
         <CommonCategories categories={categories}/>
       </ScrollView>
