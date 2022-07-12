@@ -6,7 +6,7 @@ import { getDatabase } from "firebase/database";
 import {REACT_APP_API_KEY} from '@env'
 
 const firebaseConfig = {
-  apiKey: REACT_APP_API_KEY,
+  apiKey: 'AIzaSyDWoD-ckeMpDOftFn_Eu1MERWUUpm0shuU',
   authDomain: "kenffy-blog.firebaseapp.com",
   databaseURL: "https://kenffy-blog-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "kenffy-blog",

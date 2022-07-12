@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView} from 'react-native';
 import styled from "styled-components/native";
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import RecentPosts from '../components/RecentPosts';
 
 export default function HomeScreen({navigation}) {
 
@@ -10,10 +11,10 @@ export default function HomeScreen({navigation}) {
   return (
     <Container>
       <Navbar navigation={navigation}/>
-      <Header />
-      <View>
-        <Text>HomeScreen</Text>
-      </View>
+      <ScrollView>
+        <Header />
+        <RecentPosts />
+      </ScrollView>
     </Container>
   )
 };

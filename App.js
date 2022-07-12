@@ -1,14 +1,15 @@
 import 'react-native-gesture-handler';
+import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { configureStore } from './redux/store';
-import Navbar from './components/Navbar';
 import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 
 import AppStack from './navigation/AppStack';
 
 const store = configureStore();
+LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 
 export default function App() {
   return (
