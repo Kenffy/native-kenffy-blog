@@ -28,6 +28,9 @@ const Container = styled.SafeAreaView`
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0,0,0,0.1);
+    box-shadow:0 .5rem 1.5rem rgba(0,0,0,.5);
 `;
 
 const Logo = styled.View`

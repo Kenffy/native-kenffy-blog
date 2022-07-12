@@ -39,7 +39,7 @@ export default class RecentPosts extends Component {
         {this.state.posts.length > 0 &&
         <View>
         {this.state.posts.map(post=>
-        (<PostCard post={post} key={post?.id} />)
+        (<PostCard post={post} key={post?.id}/>)
         )}
         </View>
         }
@@ -48,6 +48,9 @@ export default class RecentPosts extends Component {
           <LoadingText>Loading...</LoadingText>
         </LoadingView>
         }
+        <MoreButton>
+          <ButtonText>More Posts</ButtonText>
+        </MoreButton>
       </Container>
     )
   }
@@ -101,6 +104,8 @@ export default class RecentPosts extends Component {
 
 const Container = styled.View`
 padding: 10px;
+background-color: rgba(0,0,0,0.05);
+padding-bottom: 30px;
 `;
 
 const Header = styled.Text`
@@ -120,5 +125,21 @@ const LoadingText = styled.Text`
 text-align: center;
 font-size: 20px;
 color: teal;
+`;
+
+const MoreButton = styled.TouchableOpacity`
+align-self: center;
+justify-content: center;
+background-color: #444;
+width: 150px;
+padding: 10px;
+border-radius: 5px;
+margin-top: 15px;
+`;
+
+const ButtonText = styled.Text`
+text-align: center;
+text-transform: uppercase;
+color: #fff;
 `;
 
