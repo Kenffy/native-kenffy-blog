@@ -8,6 +8,7 @@ import { Image } from 'react-native-expo-image-cache';
 import { getPostAsync } from '../services/firestoreServices';
 import { CategoryData } from '../seed/CategoryData';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Avatar from '../components/Avatar';
 
 const width = Dimensions.get('window').width;
 const height = width / 1.7;
@@ -18,10 +19,12 @@ export default function SingleScreen({navigation, route}) {
   const [post, setPost] = useState(null);
   const [videoId, setVideoId] = useState('');
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     const loadData = async()=>{
       try {
+        setLoading(true);
         const res_post = await getPostAsync(postId);
         //const res_user = await getUserAsync(authorId);
         if(res_post){
@@ -31,6 +34,7 @@ export default function SingleScreen({navigation, route}) {
             setVideoId(tmpId);
           }
           //setLiked(res_post.likes.includes(user?.uid));
+          setLoading(false);
         }
         //res_user && setAuthor(res_user);
       } catch (error) {
@@ -72,7 +76,7 @@ export default function SingleScreen({navigation, route}) {
   return (
     <Container>
       <ButtonBack onPress={()=>navigation.goBack()}>
-        <Ionicons name="arrow-back-outline" size={25} style={{color: 'teal'}}/>
+        <Ionicons name="arrow-back-outline" size={25} style={{color: 'whitesmoke', opacity: 0.6}}/>
       </ButtonBack>
       <ScrollView>
       {post?.images.length > 1 ?
@@ -92,7 +96,27 @@ export default function SingleScreen({navigation, route}) {
         </>        
       }
 
+        {loading?
+        <LoadingView>
+          <LoadingText>Please wait...</LoadingText>
+        </LoadingView>
+        :
+        <>
         <Title>{post?.title}</Title>
+        <InfoWrapper>
+          <UserInfos>
+              <Avatar source={post?.profile?.url} />
+              <Username>{post?.username}</Username>
+          </UserInfos>
+          <InfoItem>
+              <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
+              <ItemValue>{new Date(post?.createdAt).toDateString()}</ItemValue>
+          </InfoItem>
+          <InfoItem>
+              <Ionicons name="file-tray-outline" size={16} style={{color: 'teal'}}/>
+              <ItemValue>{post?.category}</ItemValue>
+          </InfoItem>
+        </InfoWrapper>
         <BodyWrapper>
           <HTMLView 
           height={height}
@@ -107,6 +131,37 @@ export default function SingleScreen({navigation, route}) {
         videoId={videoId}
         onChangeState={onStateChange}/>}
 
+        <ActionsWrapper>
+          <FooterItem>
+              <Ionicons name="heart-outline" size={20} style={{color: 'teal'}}/>
+              <FooterValue>{post?.likes? post?.likes.length:0}</FooterValue>
+          </FooterItem>
+          <FooterItem>
+              <Ionicons name="eye-outline" size={21} style={{color: 'teal'}}/>
+              <FooterValue>{post?.views}</FooterValue>
+          </FooterItem>
+          <FooterItem>
+              <Ionicons name="chatbubbles-outline" size={20} style={{color: 'teal'}}/>
+              <FooterValue>{post?.comments? post?.comments.length:0}</FooterValue>
+          </FooterItem>
+          <FooterItem>
+              <Ionicons name="arrow-redo-outline" size={20} style={{color: 'teal'}}/>
+          </FooterItem>
+        </ActionsWrapper>
+
+        <SubWrapper>
+          <SubTitle>Leave a comment</SubTitle>
+        </SubWrapper>
+
+        <SubWrapper>
+          <SubTitle>{post?.comments.length > 1 ? `${post?.comments.length} Comments`:`${post?.comments.length} Comment`}</SubTitle>
+        </SubWrapper>
+
+        <SubWrapper>
+          <SubTitle>Other Articles</SubTitle>
+        </SubWrapper>
+      </>
+      }
       </ScrollView>
     </Container>
   )
@@ -125,15 +180,30 @@ const styles = StyleSheet.create({
   },
   img:{
     width: '100%',
+    backgroundColor: 'gray',
     height: `${props=> `${props.height}px`}`,
-  }
+  },
+  h2:{
+    fontSize: 18,
+  },
 });
 
 const Container = styled.View`
     flex: 1;
     background-color: #fff;
     position: relative;
-    padding-bottom: 20px;
+`;
+
+const LoadingView = styled.View`
+justify-content: center;
+padding: 20px 0;
+flex: 1;
+`;
+
+const LoadingText = styled.Text`
+text-align: center;
+font-size: 20px;
+color: teal;
 `;
 
 const CategoryImage = styled.Image`
@@ -162,6 +232,66 @@ color: #444;
 padding: 10px;
 `;
 
+const UserInfos = styled.View`
+flex-direction: row;
+align-items: center;
+`;
+
+const Username = styled.Text`
+color: teal;
+font-size: 14px;
+margin: 0 6px;
+`;
+
+const InfoWrapper = styled.View`
+margin-top: 8px;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+padding: 5px 10px;
+`;
+
+const InfoItem = styled.View`
+flex-direction: row;
+align-items: center;
+`;
+
+const ItemValue = styled.Text`
+color: teal;
+font-size: 14px;
+margin-left: 5px;
+`;
+
 const BodyWrapper = styled.View`
 padding: 10px;
+`;
+
+const ActionsWrapper = styled.View`
+flex-direction: row;
+align-items: center;
+justify-content: flex-end;
+margin: 5px 0;
+padding: 10px;
+`;
+
+const FooterItem = styled.View`
+flex-direction: row;
+align-items: center;
+margin-left: 15px;
+`;
+
+const FooterValue = styled.Text`
+color: teal;
+font-size: 18px;
+margin-left: 3px;
+`;
+
+const SubWrapper = styled.View`
+padding: 10px;
+`;
+
+const SubTitle = styled.Text`
+font-size: 18px;
+font-weight: 600;
+color: #444;
 `;

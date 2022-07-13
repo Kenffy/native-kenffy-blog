@@ -48,7 +48,6 @@ export default function PostCard({post, navigation}) {
   }, []);
 
   const handleOnPress = ()=>{
-    console.log('go to single post.')
     navigation.navigate('Single', {id: post?.id});
   }
 
@@ -83,7 +82,7 @@ export default function PostCard({post, navigation}) {
         }
       <InfoWrapper>
         <InfoItem>
-            <Ionicons name="calendar-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
             <ItemValue>{new Date(post?.createdAt).toDateString()}</ItemValue>
         </InfoItem>
         <InfoItem>
@@ -109,9 +108,11 @@ export default function PostCard({post, navigation}) {
       </TouchableOpacity>
 
       <BodyWrapper>
-        <HTMLView 
-        stylesheet={styles}
-        value={post?.body.length > 150? post?.body?.slice(0, 150)+"...":post?.body}/>
+        <TouchableOpacity onPress={handleOnPress}>
+          <HTMLView 
+          stylesheet={styles}
+          value={post?.body.length > 150? post?.body?.slice(0, 150)+'...<a>read more</a>':post?.body}/>
+        </TouchableOpacity>
       </BodyWrapper>
       
       <FooterWrapper>
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   a:{
       fontSize: 16,
       color: 'teal',
-  }
+  },
 });
 
 const Container = styled.View`
@@ -184,6 +185,7 @@ padding: 10px;
 
 const BodyWrapper = styled.View`
 padding: 10px;
+flex-wrap: nowrap;
 `;
 
 const InfoWrapper = styled.View`
