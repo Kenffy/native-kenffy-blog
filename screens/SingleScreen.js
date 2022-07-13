@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from "styled-components/native";
 import HTMLView from 'react-native-htmlview';
@@ -100,11 +100,12 @@ export default function SingleScreen({navigation, route}) {
           value={post?.body}/>
         </BodyWrapper>
 
+        {videoId.length > 0 &&
         <YoutubePlayer
         height={height}
         play={playing}
         videoId={videoId}
-        onChangeState={onStateChange}/>
+        onChangeState={onStateChange}/>}
 
       </ScrollView>
     </Container>
@@ -132,6 +133,7 @@ const Container = styled.View`
     flex: 1;
     background-color: #fff;
     position: relative;
+    padding-bottom: 20px;
 `;
 
 const CategoryImage = styled.Image`
@@ -142,7 +144,7 @@ height: ${props=> `${props.height}px`};
 const ButtonBack = styled.TouchableOpacity`
 height: 40px;
 width: 40px;
-border-radius: 50%;
+border-radius: 50px;
 background-color: rgba(0,0,0,0.2);
 align-self: center;
 justify-content: center;

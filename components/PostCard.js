@@ -1,4 +1,4 @@
-import { Dimensions, TouchableOpacity } from 'react-native';
+import { Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components/native";
 import YoutubePlayer from "react-native-youtube-iframe";
@@ -7,6 +7,7 @@ import Avatar from './Avatar';
 import { Image } from 'react-native-expo-image-cache';
 import { CategoryData } from '../seed/CategoryData';
 import ImageSlider from './ImageSlider';
+import HTMLView from 'react-native-htmlview';
 
 const width = Dimensions.get('window').width;
 const height = width / 1.8;
@@ -48,7 +49,7 @@ export default function PostCard({post, navigation}) {
 
   const handleOnPress = ()=>{
     console.log('go to single post.')
-    navigation.navigate('Single', {...post});
+    navigation.navigate('Single', {id: post?.id});
   }
 
   return (
@@ -106,6 +107,12 @@ export default function PostCard({post, navigation}) {
       <TouchableOpacity onPress={handleOnPress}>
         <Title>{post?.title}</Title>
       </TouchableOpacity>
+
+      <BodyWrapper>
+        <HTMLView 
+        stylesheet={styles}
+        value={post?.body.length > 150? post?.body?.slice(0, 150)+"...":post?.body}/>
+      </BodyWrapper>
       
       <FooterWrapper>
         <UserInfos>
@@ -138,7 +145,19 @@ export default function PostCard({post, navigation}) {
       </FooterWrapper>
     </Container>
   )
-}
+};
+
+const styles = StyleSheet.create({
+  p: {
+      fontSize: 16,
+      color: '#444',
+      padding: 0,
+  },
+  a:{
+      fontSize: 16,
+      color: 'teal',
+  }
+});
 
 const Container = styled.View`
     flex: 1;
@@ -160,6 +179,10 @@ const Title = styled.Text`
 font-size: 18px;
 font-weight: 500;
 color: #444;
+padding: 10px;
+`;
+
+const BodyWrapper = styled.View`
 padding: 10px;
 `;
 
