@@ -1,13 +1,12 @@
-import { Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, TouchableOpacity } from 'react-native';
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components/native";
-import Slideshow from 'react-native-image-slider-show';
 import YoutubePlayer from "react-native-youtube-iframe";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HTMLView from 'react-native-htmlview';
 import Avatar from './Avatar';
 import { Image } from 'react-native-expo-image-cache';
 import { CategoryData } from '../seed/CategoryData';
+import ImageSlider from './ImageSlider';
 
 const width = Dimensions.get('window').width;
 const height = width / 1.8;
@@ -16,16 +15,26 @@ const height = width / 1.8;
 export default function PostCard({post, navigation}) {
 
   const getVideoId = (url) =>{
-    return url.split('watch?v=')[1];
-    // if(url.contains('watch?v=')){
-    //     return url.split('watch?v=')[1];
-    // }else if(url.contains('youtu.be')){
-    //     return url.split('youtu.be/')[1];
-    // }else{
-    //     return url;
-    // }
+    if(url.includes('watch?v=')){
+      const tmpId = url.split('watch?v=')[1];
+      if(tmpId.includes('&t=')){
+        return tmpId.split('&t=')[0]
+      }else{
+        return tmpId;
+      }
+    }else if(url.includes('youtu.be')){
+      const tmpId = url.split('youtu.be/')[1];
+      if(tmpId.includes('&t=')){
+        return tmpId.split('&t=')[0]
+      }else{
+        return tmpId;
+      }
+    }else{
+        return url;
+    }
   }
 
+  const videoId = getVideoId(post?.video);
   const [toggle, setToggle] = useState(post?.video? true: false);
   const [playing, setPlaying] = useState(false);
   const category = CategoryData.find(c=>c.name === post?.category) || CategoryData[1];
@@ -48,14 +57,14 @@ export default function PostCard({post, navigation}) {
         <YoutubePlayer
         height={height}
         play={playing}
-        videoId={post?.video.split('watch?v=')[1]}
+        videoId={videoId}
         onChangeState={onStateChange}/>
         :
         <>
         {post?.images.length > 1 ?
-        <MediaImages
+        <ImageSlider 
         height={height}
-        dataSource={post?.images} />
+        images={post?.images} />
         :
         <>
         {post?.images.length === 0 ?
@@ -80,12 +89,18 @@ export default function PostCard({post, navigation}) {
             <Ionicons name="file-tray-outline" size={16} style={{color: 'teal'}}/>
             <ItemValue>{post?.category}</ItemValue>
         </InfoItem>
+        {post?.video?
         <TouchableOpacity onPress={()=>setToggle(!toggle)}>
             <InfoItem>
                 <Ionicons name="sync-outline" size={16} style={{color: 'teal'}}/>
                 <ItemValue>{toggle? 'Video': 'Images'}</ItemValue>
             </InfoItem>
         </TouchableOpacity>
+        :
+        <InfoItem>
+            <Ionicons name="image-outline" size={16} style={{color: 'teal'}}/>
+            <ItemValue>{toggle? 'Video': 'Images'}</ItemValue>
+        </InfoItem>}
       </InfoWrapper>
 
       <TouchableOpacity onPress={handleOnPress}>
@@ -121,27 +136,9 @@ export default function PostCard({post, navigation}) {
             </FooterItem>
         </ActionsWrapper>
       </FooterWrapper>
-      
-      {/* <BodyWrapper>
-        <HTMLView 
-        stylesheet={styles}
-        value={post?.body.length > 80? post?.body?.slice(0, 80)+"...":post?.body}/>
-      </BodyWrapper> */}
-      
     </Container>
   )
 }
-
-const styles = StyleSheet.create({
-    p: {
-        fontSize: 15,
-        color: '#444',
-    },
-    a:{
-        fontSize: 15,
-        color: 'teal',
-    }
-});
 
 const Container = styled.View`
     flex: 1;
@@ -153,9 +150,6 @@ const Container = styled.View`
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,0.8);
 `;
 
-const MediaImages = styled(Slideshow)`
-height: ${props=> `${props.height}px`};
-`;
 
 const CategoryImage = styled.Image`
 width: 100%;
@@ -198,10 +192,6 @@ const Username = styled.Text`
 color: teal;
 font-size: 14px;
 margin: 0 6px;
-`;
-
-const BodyWrapper = styled.View`
-padding: 10px;
 `;
 
 const FooterWrapper = styled.View`

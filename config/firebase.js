@@ -3,10 +3,9 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth} from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
-import {REACT_APP_API_KEY} from '@env'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDWoD-ckeMpDOftFn_Eu1MERWUUpm0shuU',
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "kenffy-blog.firebaseapp.com",
   databaseURL: "https://kenffy-blog-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "kenffy-blog",
