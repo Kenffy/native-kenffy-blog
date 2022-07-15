@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import styled from "styled-components/native";
 import YoutubePlayer from "react-native-youtube-iframe";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Avatar from './Avatar';
+//import Avatar from './Avatar';
 import { Image } from 'react-native-expo-image-cache';
 import { CategoryData } from '../seed/CategoryData';
 import ImageSlider from './ImageSlider';
@@ -39,6 +39,7 @@ export default function PostCard({post, navigation}) {
   const [toggle, setToggle] = useState(post?.video? true: false);
   const [playing, setPlaying] = useState(false);
   const category = CategoryData.find(c=>c.name === post?.category) || CategoryData[1];
+  const defaultImg = require('../assets/images/noProfile.png');
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
@@ -117,7 +118,13 @@ export default function PostCard({post, navigation}) {
       
       <FooterWrapper>
         <UserInfos>
-            <Avatar source={post?.profile?.url} />
+            {post?.profile? 
+            <Avatar 
+            preview={{uri: post?.profile.url}}
+            uri={post?.profile.url} />
+            :
+            <LocalAvatar source={defaultImg} />
+            }
             <Username>{post?.username}</Username>
             {post?.status === "Public" &&
             <Ionicons name="earth-outline" size={16} style={{color: 'teal'}}/>
@@ -224,6 +231,20 @@ flex-direction: row;
 align-items: center;
 justify-content: space-between;
 padding: 5px 10px;
+`;
+
+const Avatar = styled(Image)`
+height: 40px;
+width: 40px;
+border-radius: 50px;
+`;
+
+const LocalAvatar = styled.Image`
+height: 40px;
+width: 40px;
+border-radius: 50px;
+border-width: 1px;
+border-color: rgba(0,0,0,0.08);
 `;
 
 const ActionsWrapper = styled.View`

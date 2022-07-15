@@ -9,6 +9,8 @@ import { getPostAsync } from '../services/firestoreServices';
 import { CategoryData } from '../seed/CategoryData';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from '../components/Avatar';
+import OtherPosts from '../components/OtherPosts';
+import PostComments from '../components/PostComments';
 
 const width = Dimensions.get('window').width;
 const height = width / 1.7;
@@ -73,97 +75,110 @@ export default function SingleScreen({navigation, route}) {
     }
   }, []);
 
+  
+
   return (
-    <Container>
-      <ButtonBack onPress={()=>navigation.goBack()}>
-        <Ionicons name="arrow-back-outline" size={25} style={{color: 'whitesmoke', opacity: 0.6}}/>
-      </ButtonBack>
-      <ScrollView>
-      {post?.images.length > 1 ?
-        <ImageSlider 
-        height={height}
-        images={post?.images} />
-        :
-        <>
-        {post?.images.length === 0 ?
-        <CategoryImage height={height}
-          source={category?.icon}/>
-        :
-        <Image 
-          style={{height}}
-          preview={{uri: post?.images[0]?.url}}
-          uri={post?.images[0]?.url}/>}
-        </>        
-      }
-
-        {loading?
-        <LoadingView>
-          <LoadingText>Please wait...</LoadingText>
-        </LoadingView>
-        :
-        <>
-        <Title>{post?.title}</Title>
-        <InfoWrapper>
-          <UserInfos>
-              <Avatar source={post?.profile?.url} />
-              <Username>{post?.username}</Username>
-          </UserInfos>
-          <InfoItem>
-              <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
-              <ItemValue>{new Date(post?.createdAt).toDateString()}</ItemValue>
-          </InfoItem>
-          <InfoItem>
-              <Ionicons name="file-tray-outline" size={16} style={{color: 'teal'}}/>
-              <ItemValue>{post?.category}</ItemValue>
-          </InfoItem>
-        </InfoWrapper>
-        <BodyWrapper>
-          <HTMLView 
+      <Container>
+        <ButtonBack onPress={()=>navigation.goBack()}>
+          <Ionicons name="arrow-back-outline" size={25} style={{color: 'whitesmoke', opacity: 0.6}}/>
+        </ButtonBack>
+        <ScrollView>
+        {post?.images.length > 1 ?
+          <ImageSlider 
           height={height}
-          stylesheet={styles}
-          value={post?.body}/>
-        </BodyWrapper>
+          images={post?.images} />
+          :
+          <>
+          {post?.images.length === 0 ?
+          <CategoryImage height={height}
+            source={category?.icon}/>
+          :
+          <Image 
+            style={{height}}
+            preview={{uri: post?.images[0]?.url}}
+            uri={post?.images[0]?.url}/>}
+          </>        
+        }
 
-        {videoId.length > 0 &&
-        <YoutubePlayer
-        height={height}
-        play={playing}
-        videoId={videoId}
-        onChangeState={onStateChange}/>}
+          {loading?
+          <LoadingView>
+            <LoadingText>Please wait...</LoadingText>
+          </LoadingView>
+          :
+          <>
+          <Title>{post?.title}</Title>
+          <InfoWrapper>
+            <UserInfos>
+                <Avatar source={post?.profile?.url} />
+                <Username>{post?.username}</Username>
+            </UserInfos>
+            <InfoItem>
+                <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
+                <ItemValue>{new Date(post?.createdAt).toDateString()}</ItemValue>
+            </InfoItem>
+            <InfoItem>
+                <Ionicons name="file-tray-outline" size={16} style={{color: 'teal'}}/>
+                <ItemValue>{post?.category}</ItemValue>
+            </InfoItem>
+          </InfoWrapper>
+          <BodyWrapper>
+            <HTMLView 
+            height={height}
+            stylesheet={styles}
+            value={post?.body}/>
+          </BodyWrapper>
 
-        <ActionsWrapper>
-          <FooterItem>
-              <Ionicons name="heart-outline" size={20} style={{color: 'teal'}}/>
-              <FooterValue>{post?.likes? post?.likes.length:0}</FooterValue>
-          </FooterItem>
-          <FooterItem>
-              <Ionicons name="eye-outline" size={21} style={{color: 'teal'}}/>
-              <FooterValue>{post?.views}</FooterValue>
-          </FooterItem>
-          <FooterItem>
-              <Ionicons name="chatbubbles-outline" size={20} style={{color: 'teal'}}/>
-              <FooterValue>{post?.comments? post?.comments.length:0}</FooterValue>
-          </FooterItem>
-          <FooterItem>
-              <Ionicons name="arrow-redo-outline" size={20} style={{color: 'teal'}}/>
-          </FooterItem>
-        </ActionsWrapper>
+          {videoId.length > 0 &&
+          <YoutubePlayer
+          height={height}
+          play={playing}
+          videoId={videoId}
+          onChangeState={onStateChange}/>}
 
-        <SubWrapper>
-          <SubTitle>Leave a comment</SubTitle>
-        </SubWrapper>
+          {post?.tags.length > 0 && 
+          <TagsWrapper>
+            {post?.tags.map((tag,index)=>(
+              <Tag key={index}>#{tag}</Tag>
+            ))}
+          </TagsWrapper>
+          }
 
-        <SubWrapper>
-          <SubTitle>{post?.comments.length > 1 ? `${post?.comments.length} Comments`:`${post?.comments.length} Comment`}</SubTitle>
-        </SubWrapper>
+          <ActionsWrapper>
+            <FooterItem>
+                <Ionicons name="heart-outline" size={20} style={{color: 'teal'}}/>
+                <FooterValue>{post?.likes? post?.likes.length:0}</FooterValue>
+            </FooterItem>
+            <FooterItem>
+                <Ionicons name="eye-outline" size={21} style={{color: 'teal'}}/>
+                <FooterValue>{post?.views}</FooterValue>
+            </FooterItem>
+            <FooterItem>
+                <Ionicons name="chatbubbles-outline" size={20} style={{color: 'teal'}}/>
+                <FooterValue>{post?.comments? post?.comments.length:0}</FooterValue>
+            </FooterItem>
+            <FooterItem>
+                <Ionicons name="arrow-redo-outline" size={20} style={{color: 'teal'}}/>
+            </FooterItem>
+          </ActionsWrapper>
 
-        <SubWrapper>
-          <SubTitle>Other Articles</SubTitle>
-        </SubWrapper>
-      </>
-      }
-      </ScrollView>
-    </Container>
+          <SubWrapper>
+            <SubTitle>Leave a comment</SubTitle>
+            <PostComments post={post}/>
+          </SubWrapper>
+
+          {/* <SubWrapper>
+            <SubTitle>{post?.comments.length > 1 ? `${post?.comments.length} Comments`:`${post?.comments.length} Comment`}</SubTitle>
+          </SubWrapper> */}
+
+          <SubWrapper>
+            <SubTitle>Other Articles</SubTitle>
+            {post && <OtherPosts navigation={navigation} userId={post?.userId} postId={post?.id}/>}
+          </SubWrapper>
+        </>
+        }
+        </ScrollView>
+      </Container>
+    
   )
 };
 
@@ -266,6 +281,18 @@ const BodyWrapper = styled.View`
 padding: 10px;
 `;
 
+const TagsWrapper = styled.View`
+flex-direction: row;
+padding: 10px;
+flex-wrap: wrap;
+`;
+
+const Tag = styled.Text`
+font-weight: 500;
+color: teal;
+margin-left: 3px;
+`;
+
 const ActionsWrapper = styled.View`
 flex-direction: row;
 align-items: center;
@@ -288,6 +315,7 @@ margin-left: 3px;
 
 const SubWrapper = styled.View`
 padding: 10px;
+margin-top: 20px;
 `;
 
 const SubTitle = styled.Text`
