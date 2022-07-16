@@ -3,9 +3,11 @@ import HomeScreen from "../screens/HomeScreen";
 import SingleScreen from "../screens/SingleScreen";
 import WriteScreen from "../screens/WriteScreen";
 
+
+
 const Stack = createStackNavigator();
 
-const HomeStack = () => {
+export const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeScreen} 
@@ -17,5 +19,3 @@ const HomeStack = () => {
     </Stack.Navigator>
   );
 };
-
-export default HomeStack;

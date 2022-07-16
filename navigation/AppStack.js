@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import CustomDrawer from '../components/CustomDrawer';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BloggerScreen from '../screens/BloggerScreen';
 import SettingScreen from '../screens/SettingScreen';
@@ -12,15 +11,12 @@ import MessagesScreen from '../screens/MessagesScreen';
 import WriteScreen from '../screens/WriteScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import HomeStack from '../stacks/AppStacks';
 
 
 const Drawer = createDrawerNavigator();
 
 
 const AuthStack = () => {
-
-    const [user, setUser] = useState(true);
     return (
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props}/>}
@@ -44,8 +40,6 @@ const AuthStack = () => {
           }}
         />
         
-        {user?
-        <>
         <Drawer.Screen
           name="EXPLORE"
           component={BloggerScreen}
@@ -91,9 +85,6 @@ const AuthStack = () => {
             ),
           }}
         />
-        </>
-        :
-        <>
         <Drawer.Screen
           name="LOGIN"
           component={LoginScreen}
@@ -112,7 +103,6 @@ const AuthStack = () => {
             ),
           }}
         />
-        </>}
       </Drawer.Navigator>
     );
   };

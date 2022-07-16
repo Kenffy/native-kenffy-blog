@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Image,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -9,27 +8,36 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 
+import { Image } from 'react-native-expo-image-cache';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 
 const CustomDrawer = (props) =>{
 
-    const user = true;
+    const user  = useSelector((state) => state.auth.user);
+    const defaultImg = require('../assets/images/noProfile.png');
 
-    const bg = require(`../assets/menu-bg.jpeg`);
-    const userImage = require(`../assets/user-profile.jpg`);
+    //const bg = require(`../assets/menu-bg.jpeg`);
+    //const userImage = require(`../assets/user-profile.jpg`);
 
     return (
         <Container>
             <DrawerContentScrollView
             {...props}
             contentContainerStyle={styles.wrapper}>
-                <Header source={bg} resizeMode="cover">
+                <Header source={user?.cover} resizeMode="cover">
                     {user?
                     <>
-                    <ProfileImage source={userImage}/>
-                    <Username>John Doe</Username>
-                    <Email>johndoe@gmail.com</Email>
+                    {user?.profile? 
+                    <Avatar 
+                    preview={{uri: post?.profile}}
+                    uri={post?.profile} />
+                    :
+                    <LocalAvatar source={defaultImg} />
+                    }
+                    <Username>{user?.username}</Username>
+                    <Email>{user?.email}</Email>
                     </>
                     :
                     <>
@@ -79,11 +87,29 @@ background-repeat: no-repeat;
 background-size: cover;
 `;
 
-const ProfileImage = styled.Image`
+// const ProfileImage = styled.Image`
+// height: 130px;
+// width: 130px;
+// border-radius: 5px;
+// margin-bottom: 10px;
+// `;
+
+const Avatar = styled(Image)`
 height: 130px;
 width: 130px;
 border-radius: 5px;
 margin-bottom: 10px;
+overflow: hidden;
+`;
+
+const LocalAvatar = styled.Image`
+height: 130px;
+width: 130px;
+border-radius: 5px;
+margin-bottom: 10px;
+border-width: 1px;
+border-color: rgba(0,0,0,0.08);
+overflow: hidden;
 `;
 
 const DrawerItemWrapper = styled.View`

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import styled from "styled-components/native";
 import HTMLView from 'react-native-htmlview';

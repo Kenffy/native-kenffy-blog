@@ -7,6 +7,7 @@ import { configureStore } from './redux/store';
 import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 
 import AppStack from './navigation/AppStack';
+import AppStacks from './navigation/AppStacks';
 
 const store = configureStore();
 LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
@@ -17,7 +18,7 @@ export default function App() {
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <NavigationContainer>
-          <AppStack />
+          <AppStacks />
         </NavigationContainer>
         
       </SafeAreaView>
