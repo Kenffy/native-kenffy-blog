@@ -35,7 +35,7 @@ const UnAuthStack = () => {
           }}
         />
         <Drawer.Screen
-          name="LOGIN"
+          name="SIGN IN"
           component={LoginScreen}
           options={{
             drawerIcon: ({color}) => (
@@ -44,7 +44,7 @@ const UnAuthStack = () => {
           }}
         />
         <Drawer.Screen
-          name="REGISTER"
+          name="SIGN UP"
           component={RegisterScreen}
           options={{
             drawerIcon: ({color}) => (

@@ -9,8 +9,6 @@ import BloggerScreen from '../screens/BloggerScreen';
 import SettingScreen from '../screens/SettingScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import WriteScreen from '../screens/WriteScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
 
 
 const Drawer = createDrawerNavigator();
@@ -82,24 +80,6 @@ const AuthStack = () => {
           options={{
             drawerIcon: ({color}) => (
               <Ionicons name="settings" size={22} color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="LOGIN"
-          component={LoginScreen}
-          options={{
-            drawerIcon: ({color}) => (
-              <Ionicons name="person-circle" size={22} color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="REGISTER"
-          component={RegisterScreen}
-          options={{
-            drawerIcon: ({color}) => (
-              <Ionicons name="person-add" size={22} color={color} />
             ),
           }}
         />

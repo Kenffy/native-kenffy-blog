@@ -27,6 +27,7 @@ const CustomDrawer = (props) =>{
             {...props}
             contentContainerStyle={styles.wrapper}>
                 <Header source={user?.cover} resizeMode="cover">
+                  <Wrapper>
                     {user?
                     <>
                     {user?.profile? 
@@ -42,10 +43,10 @@ const CustomDrawer = (props) =>{
                     :
                     <>
                     <Username>Hello, Welcome !</Username>
-                    <Email>Please sign up to create, like and comment posts</Email>
+                    <Email>Please sign in to create, like and comment posts</Email>
                     </>
                     }
-                    
+                  </Wrapper>
                 </Header>
 
                 <DrawerItemWrapper>
@@ -79,12 +80,16 @@ flex: 1;
 `;
 
 const Header = styled.ImageBackground`
-padding: 20px 20px;
 background-color: teal;
 //background-image: linear-gradient(transparent, rgba(0,0,0,0.8)), url('');
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
+`;
+
+const Wrapper = styled.View`
+padding: 20px 20px;
+background-color: rgba(0,0,0,0.4);
 `;
 
 // const ProfileImage = styled.Image`
