@@ -1,18 +1,25 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components/native";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function RegisterScreen() {
+export default function RegisterScreen({navigation}) {
   const registerbg = require('../assets/images/register-bg.jpeg');
+
+  const [agree, setAgree] = useState(false);
+  const [error, setError] = useState(null);
+
   return (
     <Container source={registerbg}>
       <Wrapper>
         <Header>Sign Up</Header>
+        {error && <ErrorMesssage>{error}</ErrorMesssage>}
         <GoogleButton>
-          <ButtonText>Sign in with Google</ButtonText>
+          <Ionicons name="logo-google" size={14} style={{color: '#fff'}}/>
+          <ButtonText>Sign up with Google</ButtonText>
         </GoogleButton>
         <FacebookButton>
-          <ButtonText>Sign in with Facebook</ButtonText>
+          <Ionicons name="logo-facebook" size={14} style={{color: '#fff'}}/>
+          <ButtonText>Sign up with Facebook</ButtonText>
         </FacebookButton>
 
         <Separator>
@@ -26,9 +33,32 @@ export default function RegisterScreen() {
         <Input 
         secureTextEntry={true}
         placeholder='Password'/>
+        <TermsWrapper>
+          <TermLink style={{marginRight: 5}} onPress={()=>setAgree(!agree)}>
+            {agree?
+            <Ionicons name="checkbox-outline" size={16} style={{color: '#444'}}/>
+            :
+            <Ionicons name="square-outline" size={16} style={{color: '#444'}}/>
+            }
+          </TermLink>
+          <Text>I agree to the the</Text>
+          <TermLink>
+            <TermsText> Terms of Services</TermsText>
+          </TermLink>
+          <Text> and</Text>
+          <TermLink>
+            <TermsText> Privacy Policy</TermsText>
+          </TermLink>
+        </TermsWrapper>
         <LoginButton>
           <ButtonText>Sign in</ButtonText>
         </LoginButton>
+        <TermsWrapper>
+          <Text>Already an account?</Text>
+          <TermLink onPress={()=>navigation.navigate('SIGN IN')}>
+            <TermsText> Sign In</TermsText>
+          </TermLink>
+        </TermsWrapper>
       </Wrapper>
     </Container>
   )
@@ -45,30 +75,44 @@ width: 80%;
 border-radius: 5px;
 background-color: white;
 justify-content: center;
-padding: 10px 15px;
+padding: 20px 15px;
 `;
 
 
 const Header = styled.Text`
-font-size: 22px;
-font-weight: 500;
+margin-top: 10px;
+font-size: 30px;
+font-weight: 600;
 color: teal;
 text-align: center;
 margin-bottom: 20px;
 `;
 
+const ErrorMesssage = styled.Text`
+margin-bottom: 10px;
+font-size: 14px;
+color: red;
+text-align: center;
+`;
+
 const GoogleButton = styled.TouchableOpacity`
-background-color: red;
+background-color: #db3236;
 padding: 10px;
 margin-bottom: 10px;
 border-radius: 5px;
+flex-direction: row;
+align-items: center;
+justify-content: center;
 `;
 
 const FacebookButton = styled.TouchableOpacity`
-background-color: blue;
+background-color: #3b5998;
 padding: 10px;
 margin-bottom: 10px;
 border-radius: 5px;
+flex-direction: row;
+align-items: center;
+justify-content: center;
 `;
 
 const LoginButton = styled.TouchableOpacity`
@@ -80,11 +124,11 @@ border-radius: 5px;
 
 const ButtonText = styled.Text`
 font-size: 14px;
-font-weight: 500;
+font-weight: 600;
 text-align: center;
 text-transform: uppercase;
 color: white;
-width: 100%;
+margin-left: 10px;
 `;
 
 const Separator = styled.View`
@@ -109,6 +153,27 @@ padding: 6px 10px;
 border-radius: 5px;
 color: #444;
 font-size: 14px;
-border: 1px solid rgba(0,0,0,0.15);
+border: 2px solid rgba(0,0,0,0.2);
 margin-bottom: 10px;
+`;
+
+const TermsWrapper = styled.View`
+flex-direction: row;
+flex-wrap: wrap;
+margin: 10px 0px;
+`;
+
+const TermLink = styled.TouchableOpacity`
+align-content: center;
+`;
+
+const Text = styled.Text`
+font-size: 12px;
+color: #444;
+`;
+
+const TermsText = styled.Text`
+font-weight: bold;
+font-size: 12px;
+color: teal;
 `;

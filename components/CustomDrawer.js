@@ -81,7 +81,6 @@ flex: 1;
 
 const Header = styled.ImageBackground`
 background-color: teal;
-//background-image: linear-gradient(transparent, rgba(0,0,0,0.8)), url('');
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
@@ -91,13 +90,6 @@ const Wrapper = styled.View`
 padding: 20px 20px;
 background-color: rgba(0,0,0,0.4);
 `;
-
-// const ProfileImage = styled.Image`
-// height: 130px;
-// width: 130px;
-// border-radius: 5px;
-// margin-bottom: 10px;
-// `;
 
 const Avatar = styled(Image)`
 height: 130px;
@@ -133,6 +125,7 @@ const Email = styled.Text`
 font-size: 14px;
 font-weight: 300;
 color: white;
+margin-top: 5px;
 `;
 
 const Others = styled.View`

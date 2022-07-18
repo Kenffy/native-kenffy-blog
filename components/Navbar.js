@@ -1,9 +1,13 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import Avatar from './Avatar';
+import { useSelector } from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Image } from 'react-native-expo-image-cache';
 
 export default function Navbar({navigation}) {
+  const user  = useSelector((state) => state.auth.user);
+  const defaultImg = require('../assets/images/noProfile.png');
   return (
     <Container>
       <Logo>
@@ -11,11 +15,20 @@ export default function Navbar({navigation}) {
         <Long>Blog</Long>
       </Logo>
       <Wrapper>
+        {user &&
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-          <Avatar source="https://media.istockphoto.com/photos/mature-businessman-smiling-over-white-background-picture-id685132245?k=20&m=685132245&s=612x612&w=0&h=oKxgMF_dOhoGJtd_YxhbmpK4qFvcl-0s0NFmxuh7IKA="
-          online={true}/>
+          {user?.profile? 
+          <Avatar 
+          preview={{uri: user?.profile}}
+          uri={user?.profile} />
+          :
+          <LocalAvatar source={defaultImg} />
+          }
         </TouchableOpacity>
-        
+        }
+        <TouchableOpacity style={{marginLeft: 10}} onPress={()=>navigation.openDrawer()}>
+          <Ionicons name="reorder-three" size={35} style={{color: '#444'}}/>
+        </TouchableOpacity>
       </Wrapper>
     </Container>
   )
@@ -56,6 +69,22 @@ const Wrapper = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+`;
+
+const Avatar = styled(Image)`
+height: 30px;
+width: 30px;
+border-radius: 50px;
+overflow: hidden;
+`;
+
+const LocalAvatar = styled.Image`
+height: 30px;
+width: 30px;
+border-radius: 50px;
+border-width: 1px;
+border-color: rgba(0,0,0,0.08);
+overflow: hidden;
 `;
 
 
