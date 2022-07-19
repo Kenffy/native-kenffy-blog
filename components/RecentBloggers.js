@@ -1,62 +1,49 @@
 import { View, Text } from 'react-native';
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components/native";
 import { getAllUsersAsync } from '../services/firestoreServices';
 import UserCard from './UserCard';
 
+export default function RecentBloggers({navigation}) {
+  const [users, setUser] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-export default class RecentBloggers extends Component {
-
-    constructor(){
-      super();
-      this.state = {
-        users: [],
-        loading: false,
-      }
-    }
-  
-    UNSAFE_componentWillMount(){
-      console.log('unsafe will mount')
-    }
-  
-    componentDidMount(){
-  
-        const loadAllUsers = async()=>{
-            this.setState({loading: true});
-            const filter = {limit: 12,
-                            lastVisible: null,}
-            const res = await getAllUsersAsync(filter);
-            if(res){
-                this.setState({users: res.users});
-                this.setState({loading: false});
-              }
+  useEffect(()=>{
+    const loadAllUsers = async()=>{
+      setLoading(true);
+      const filter = {limit: 12,
+                      lastVisible: null,}
+      const res = await getAllUsersAsync(filter);
+      if(res){
+          setUser(res.users);
+          setLoading(false);
         }
-        loadAllUsers();
     }
-  
-    render() {
-      return (
-        <Container>
-          <Header>EXPLORE BLOGGERS</Header>
-          {this.state.users.length > 0 &&
-          <Wrapper>
-          {this.state.users.map(user=>
-          (<UserCard user={user} key={user?.id}/>)
-          )}
-          </Wrapper>
-          }
-          {this.state.loading &&
-          <LoadingView>
-            <LoadingText>Loading...</LoadingText>
-          </LoadingView>
-          }
-          <MoreButton>
-            <ButtonText>More Bloggers</ButtonText>
-          </MoreButton>
-        </Container>
-      )
-    }
-  }
+    loadAllUsers();
+  },[]);
+
+
+  return (
+    <Container>
+      <Header>EXPLORE BLOGGERS</Header>
+      {users.length > 0 &&
+      <Wrapper>
+      {users.map(user=>
+      (<UserCard user={user} key={user?.id}/>)
+      )}
+      </Wrapper>
+      }
+      {loading &&
+      <LoadingView>
+        <LoadingText>Loading...</LoadingText>
+      </LoadingView>
+      }
+      <MoreButton onPress={()=>navigation.navigate('Bloggers')}>
+        <ButtonText>More Bloggers</ButtonText>
+      </MoreButton>
+    </Container>
+  )
+};
 
 
 const Container = styled.View`

@@ -1,4 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
+import ExploreBloggers from '../components/ExploreBloggers';
+import ExploreCategories from '../components/ExploreCategories';
+import ExplorePosts from '../components/ExplorePosts';
 import HomeScreen from "../screens/HomeScreen";
 import SingleScreen from "../screens/SingleScreen";
 import WriteScreen from "../screens/WriteScreen";
@@ -14,6 +17,9 @@ export const HomeStack = () => {
         options={({route}) => ({
           id: route.params?.id,
         })}/>
+      <Stack.Screen name="Posts" component={ExplorePosts}/>
+      <Stack.Screen name="Bloggers" component={ExploreBloggers}/>
+      <Stack.Screen name="Categories" component={ExploreCategories}/>
       <Stack.Screen name="Single" component={SingleScreen}/>
       <Stack.Screen name="Write" component={WriteScreen}/>
     </Stack.Navigator>

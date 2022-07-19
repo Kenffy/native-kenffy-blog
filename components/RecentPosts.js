@@ -4,63 +4,6 @@ import styled from "styled-components/native";
 import { getAllPostsAsync } from '../services/firestoreServices';
 import PostCard from './PostCard';
 
-// export default class RecentPosts extends Component {
-
-//   constructor(){
-//     super();
-//     this.state = {
-//       posts: [],
-//       loading: false,
-//     }
-//   }
-
-//   UNSAFE_componentWillMount(){
-//     console.log('unsafe will mount')
-//   }
-
-//   componentDidMount(){
-
-//     const loadAllPosts = async()=>{
-//       this.setState({loading: true});
-//       const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
-//       const res = await getAllPostsAsync(filter);
-//       if(res){
-//         this.setState({posts: res.posts});
-//         this.setState({loading: false});
-//       }
-//     }
-//     loadAllPosts();
-//   }
-
-//   render() {
-//     return (
-//       <Container>
-//         <Header>RECENTS POSTS</Header>
-//         {this.state.posts.length > 0 &&
-//         <View>
-//         {this.state.posts.map(post=>
-//         (<PostCard post={post} key={post?.id}/>)
-//         )}
-//         </View>
-//         }
-//         {this.state.loading &&
-//         <LoadingView>
-//           <LoadingText>Loading...</LoadingText>
-//         </LoadingView>
-//         }
-//         <MoreButton>
-//           <ButtonText>More Posts</ButtonText>
-//         </MoreButton>
-//       </Container>
-//     )
-//   }
-// }
-
-
-
-
-
-
 
 export default function RecentPosts({navigation}) {
 
@@ -98,7 +41,7 @@ export default function RecentPosts({navigation}) {
         <LoadingText>Loading...</LoadingText>
       </LoadingView>
       }
-      <MoreButton>
+      <MoreButton onPress={()=>navigation.navigate('Posts')}>
         <ButtonText>More Posts</ButtonText>
       </MoreButton>
     </Container>

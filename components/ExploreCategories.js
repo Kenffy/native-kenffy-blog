@@ -1,21 +1,20 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import styled from "styled-components/native";
+import { CategoryData } from '../seed/CategoryData';
 import CategoryList from './CategoryList';
 
-export default function CommonCategories({navigation, categories}) {
+export default function ExploreCategories({navigation}) {
+  const categories = CategoryData.filter(c=>c.name !== "All" && c.name !== "Others")
   return (
     <Container>
-      <Header>Common Categories</Header>
+      <Header>Explore All Categories</Header>
       <CategoryList categories={categories}/>
-      <MoreButton onPress={()=>navigation.navigate('Categories')}>
-        <ButtonText>More Categories</ButtonText>
-      </MoreButton>
     </Container>
   )
 };
 
-const Container = styled.View`
+const Container = styled.ScrollView`
 padding: 10px;
 background-color: rgba(0,0,0,0.05);
 padding-bottom: 30px;

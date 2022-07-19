@@ -10,15 +10,18 @@ import { CategoryData } from '../seed/CategoryData';
 
 export default function HomeScreen({navigation}) {
 
-  const  categories =  CategoryData.slice(10,18);
+  const rootCategories = CategoryData.filter(c=>c.name !== "All" && c.name !== "Others");
+  const startIndex = Math.floor(Math.random() * (rootCategories.length-8 - 1)) + 1;
+  const categories =  rootCategories.slice(startIndex,startIndex+8);
+  
   return (
     <Container>
       <Navbar navigation={navigation}/>
       <ScrollView>
         <Header />
         <RecentPosts navigation={navigation}/>
-        <RecentBloggers />
-        <CommonCategories categories={categories}/>
+        <RecentBloggers navigation={navigation} />
+        <CommonCategories navigation={navigation} categories={categories}/>
       </ScrollView>
     </Container>
   )

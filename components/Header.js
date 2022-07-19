@@ -1,10 +1,13 @@
 import { View, Text, Dimensions, ImageBackground } from 'react-native'
 import React from 'react'
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 
 const width = Dimensions.get('window').width;
 
 export default function Header() {
+
+  const user  = useSelector((state) => state.auth.user);
 
   const backgrounds = [
     {id: 1, name: require('../assets/images/bg1.jpg')},
@@ -28,7 +31,7 @@ export default function Header() {
   return (
     <Container height={width / 1.2} source={backgrounds[bgIndex].name} resizeMode="cover">
       <Wrapper>
-        <Welcome>Hello John Doe</Welcome>
+        <Welcome>{user? `Hello ${user?.username}! Welcome to`: 'Hello! Welcome to' }</Welcome>
         <Title>MY BLOG</Title>
         <Slogan>Let's make the Blogging great again.</Slogan>
       </Wrapper>
