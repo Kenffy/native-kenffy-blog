@@ -12,6 +12,7 @@ import { Image } from 'react-native-expo-image-cache';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
+import { logoutAsync } from '../services/firebaseServices';
 
 const CustomDrawer = (props) =>{
 
@@ -20,6 +21,14 @@ const CustomDrawer = (props) =>{
 
     //const bg = require(`../assets/menu-bg.jpeg`);
     //const userImage = require(`../assets/user-profile.jpg`);
+
+    const handleLogout = async()=>{
+      try {
+        await logoutAsync()
+      } catch (error) {
+        console.log(error)
+      } 
+    }
 
     return (
         <Container>
@@ -32,8 +41,8 @@ const CustomDrawer = (props) =>{
                     <>
                     {user?.profile? 
                     <Avatar 
-                    preview={{uri: post?.profile}}
-                    uri={post?.profile} />
+                    preview={{uri: user?.profile}}
+                    uri={user?.profile} />
                     :
                     <LocalAvatar source={defaultImg} />
                     }
@@ -56,7 +65,7 @@ const CustomDrawer = (props) =>{
             {user &&
             <Others style={{borderTopWidth: 1, borderTopColor: '#ccc'}}>
         
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={handleLogout}>
                     <LogoutWrapper>
                         <Ionicons name="log-out" size={22} style={{color: '#333'}}/>
                         <LogoutText>SIGN OUT</LogoutText>

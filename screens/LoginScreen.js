@@ -1,20 +1,53 @@
 import React, { useState } from 'react';
 import styled from "styled-components/native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { loginAsync, socialLoginAsync } from '../services/firebaseServices';
 
 export default function LoginScreen({navigation}) {
   const loginbg = require('../assets/images/login-bg.jpeg');
-  const [error, setError] = useState('test');
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [error, setError] = useState(null);
+
+  const clearData = ()=>{
+    setEmail(null);
+    setPassword(null);
+    setError(null);
+  }
+
+  const handleSubmit = async()=>{
+    console.log('entry')
+    if(!email && !password){
+      return;
+    };
+
+    try {
+      await loginAsync({email, password});
+      clearData();
+    } catch (err) {
+      var message = err.code.split('/')[1].replace('-', ' ');
+      message = message.replace('-', ' ')
+      setError(message);
+      //console.log(err)
+    } 
+  }
+
+  const  handleSocialLogin = async(provider)=> {
+    await socialLoginAsync(provider);
+  }
+
+
+
   return (
     <Container source={loginbg}>
       <Wrapper>
         <Header>Sign In</Header>
         {error && <ErrorMesssage>{error}</ErrorMesssage>}
-        <GoogleButton>
+        <GoogleButton onPress={() => handleSocialLogin('google')}>
           <Ionicons name="logo-google" size={14} style={{color: '#fff'}}/>
           <ButtonText>Sign in with Google</ButtonText>
         </GoogleButton>
-        <FacebookButton>
+        <FacebookButton onPress={() => handleSocialLogin('facebook')}>
           <Ionicons name="logo-facebook" size={14} style={{color: '#fff'}}/>
           <ButtonText>Sign in with Facebook</ButtonText>
         </FacebookButton>
@@ -23,9 +56,9 @@ export default function LoginScreen({navigation}) {
           <Label>OR</Label>
         </Separator>
 
-        <Input 
+        <Input onChangeText={txt=>setEmail(txt)}
         placeholder='Email'/>
-        <Input 
+        <Input onChangeText={txt=>setPassword(txt)} 
         secureTextEntry={true}
         placeholder='Password'/>
         <TermsWrapper>
@@ -38,7 +71,7 @@ export default function LoginScreen({navigation}) {
             <TermsText>Privacy Policy</TermsText>
           </TermLink>
         </TermsWrapper>
-        <LoginButton>
+        <LoginButton onPress={handleSubmit}>
           <ButtonText>Sign in</ButtonText>
         </LoginButton>
         <Terms>

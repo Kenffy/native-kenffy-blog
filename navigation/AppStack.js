@@ -9,6 +9,7 @@ import BloggerScreen from '../screens/BloggerScreen';
 import SettingScreen from '../screens/SettingScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import WriteScreen from '../screens/WriteScreen';
+import { HomeStack } from './Stacks';
 
 
 const Drawer = createDrawerNavigator();

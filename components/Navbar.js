@@ -16,7 +16,7 @@ export default function Navbar({navigation}) {
       </Logo>
       <Wrapper>
         {user &&
-        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+        <TouchableOpacity onPress={()=>navigation.navigate('MY BLOG')}>
           {user?.profile? 
           <Avatar 
           preview={{uri: user?.profile}}

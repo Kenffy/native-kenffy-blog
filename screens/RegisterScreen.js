@@ -1,23 +1,64 @@
 import React, { useState } from 'react';
 import styled from "styled-components/native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { registerAsync, socialLoginAsync } from '../services/firebaseServices';
 
 export default function RegisterScreen({navigation}) {
   const registerbg = require('../assets/images/register-bg.jpeg');
 
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState(null);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(null);
+
+  const clearData = ()=>{
+    setEmail(null);
+    setPassword(null);
+    setUsername(null);
+    setError(null);
+  }
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    if(!username && !email && !password){
+      return;
+    };
+
+    if(!agree){
+      setError("Please agree the Terms of Services and Privacy Policy");
+      return;
+    }
+    try {
+      await registerAsync({email, password, username});
+      clearData();
+      navigation.navigate('SIGN IN');
+    } catch (err) {
+      var message = err.code.split('/')[1].replace('-', ' ');
+      message = message.replace('-', ' ')
+      setError(message);
+      //console.log(err)
+    } 
+  }
+
+  const  handleSocialLogin = async(provider)=> {
+    if(!agree){
+      setError("Please agree the Terms of Services and Privacy Policy");
+      return;
+    }
+    await socialLoginAsync(provider);
+  }
 
   return (
     <Container source={registerbg}>
       <Wrapper>
         <Header>Sign Up</Header>
         {error && <ErrorMesssage>{error}</ErrorMesssage>}
-        <GoogleButton>
+        <GoogleButton onPress={() => handleSocialLogin('google')}>
           <Ionicons name="logo-google" size={14} style={{color: '#fff'}}/>
           <ButtonText>Sign up with Google</ButtonText>
         </GoogleButton>
-        <FacebookButton>
+        <FacebookButton onPress={() => handleSocialLogin('facebook')}>
           <Ionicons name="logo-facebook" size={14} style={{color: '#fff'}}/>
           <ButtonText>Sign up with Facebook</ButtonText>
         </FacebookButton>
@@ -26,11 +67,11 @@ export default function RegisterScreen({navigation}) {
           <Label>OR</Label>
         </Separator>
 
-        <Input 
+        <Input onChangeText={txt=>setUsername(txt)}
         placeholder='Username'/>
-        <Input 
+        <Input onChangeText={txt=>setEmail(txt)}
         placeholder='Email'/>
-        <Input 
+        <Input onChangeText={txt=>setPassword(txt)}
         secureTextEntry={true}
         placeholder='Password'/>
         <TermsWrapper>
@@ -50,8 +91,8 @@ export default function RegisterScreen({navigation}) {
             <TermsText> Privacy Policy</TermsText>
           </TermLink>
         </TermsWrapper>
-        <LoginButton>
-          <ButtonText>Sign in</ButtonText>
+        <LoginButton onPress={handleSubmit}>
+          <ButtonText>Sign up</ButtonText>
         </LoginButton>
         <TermsWrapper>
           <Text>Already an account?</Text>
