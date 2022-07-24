@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, RefreshControl } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from "styled-components/native";
 import HTMLView from 'react-native-htmlview';
@@ -8,7 +8,7 @@ import { Image } from 'react-native-expo-image-cache';
 import { getPostAsync } from '../services/firestoreServices';
 import { CategoryData } from '../seed/CategoryData';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Avatar from '../components/Avatar';
+//import Avatar from '../components/Avatar';
 import OtherPosts from '../components/OtherPosts';
 import PostComments from '../components/PostComments';
 
@@ -16,6 +16,8 @@ const width = Dimensions.get('window').width;
 const height = width / 1.7;
 
 export default function SingleScreen({navigation, route}) {
+
+  const defaultImg = require('../assets/images/noProfile.png');
 
   const postId = route?.params.id;
   const [post, setPost] = useState(null);
@@ -75,7 +77,9 @@ export default function SingleScreen({navigation, route}) {
     }
   }, []);
 
-  
+  // const onRefresh = () => {
+  //   navigation.navigate('Single', {id: post?.id});
+  // }
 
   return (
       <Container>
@@ -109,8 +113,14 @@ export default function SingleScreen({navigation, route}) {
           <Title>{post?.title}</Title>
           <InfoWrapper>
             <UserInfos>
-                <Avatar source={post?.profile?.url} />
-                <Username>{post?.username}</Username>
+              {post?.profile? 
+              <Avatar 
+              preview={{uri: post?.profile.url}}
+              uri={post?.profile.url} />
+              :
+              <LocalAvatar source={defaultImg} />
+              }
+              <Username>{post?.username}</Username>
             </UserInfos>
             <InfoItem>
                 <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
@@ -250,6 +260,22 @@ padding: 10px;
 const UserInfos = styled.View`
 flex-direction: row;
 align-items: center;
+`;
+
+const Avatar = styled(Image)`
+height: 40px;
+width: 40px;
+border-radius: 50px;
+overflow: hidden;
+`;
+
+const LocalAvatar = styled.Image`
+height: 40px;
+width: 40px;
+border-radius: 50px;
+border-width: 1px;
+border-color: rgba(0,0,0,0.08);
+overflow: hidden;
 `;
 
 const Username = styled.Text`

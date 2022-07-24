@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native';
-import React, { Component, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components/native";
 import { getAllPostsAsync } from '../services/firestoreServices';
 import PostCard from './PostCard';
@@ -15,7 +15,7 @@ export default function RecentPosts({navigation}) {
   useEffect(()=>{
     const loadAllPosts = async()=>{
       setLoading(true);
-      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
+      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 2}
       const res = await getAllPostsAsync(filter);
       if(res){
         setPosts(res.posts);
