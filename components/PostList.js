@@ -99,7 +99,7 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
 };
 
 const Container = styled.View`
-
+flex: 1;
 `;
 
 const Header = styled.Text`
@@ -108,4 +108,5 @@ padding: 10px;
 
 const List = styled.FlatList`
 padding: 10px;
+margin-bottom: 30px;
 `;

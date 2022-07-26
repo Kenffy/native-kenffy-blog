@@ -83,23 +83,23 @@ export default function PostCard({post, navigation}) {
         }
       <InfoWrapper>
         <InfoItem>
-            <Ionicons name="time-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="time" size={16} style={{color: 'teal'}}/>
             <ItemValue>{new Date(post?.createdAt).toDateString()}</ItemValue>
         </InfoItem>
         <InfoItem>
-            <Ionicons name="file-tray-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="file-tray" size={16} style={{color: 'teal'}}/>
             <ItemValue>{post?.category}</ItemValue>
         </InfoItem>
         {post?.video?
         <TouchableOpacity onPress={()=>setToggle(!toggle)}>
             <InfoItem>
-                <Ionicons name="sync-outline" size={16} style={{color: 'teal'}}/>
+                <Ionicons name="sync" size={16} style={{color: 'teal'}}/>
                 <ItemValue>{toggle? 'Video': 'Images'}</ItemValue>
             </InfoItem>
         </TouchableOpacity>
         :
         <InfoItem>
-            <Ionicons name="image-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="image" size={16} style={{color: 'teal'}}/>
             <ItemValue>{toggle? 'Video': 'Images'}</ItemValue>
         </InfoItem>}
       </InfoWrapper>
@@ -127,13 +127,13 @@ export default function PostCard({post, navigation}) {
             }
             <Username>{post?.username}</Username>
             {post?.status === "Public" &&
-            <Ionicons name="earth-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="earth" size={13} style={{color: 'teal'}}/>
             }
             {post?.status === "Private" &&
-            <Ionicons name="lock-closed-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="lock-closed" size={13} style={{color: 'teal'}}/>
             }
             {post?.status === "Friends" &&
-            <Ionicons name="people-outline" size={16} style={{color: 'teal'}}/>
+            <Ionicons name="people" size={13} style={{color: 'teal'}}/>
             }
         </UserInfos>
         <ActionsWrapper>
@@ -234,14 +234,14 @@ padding: 5px 10px;
 `;
 
 const Avatar = styled(Image)`
-height: 40px;
-width: 40px;
+height: 30px;
+width: 30px;
 border-radius: 50px;
 `;
 
 const LocalAvatar = styled.Image`
-height: 40px;
-width: 40px;
+height: 30px;
+width: 30px;
 border-radius: 50px;
 border-width: 1px;
 border-color: rgba(0,0,0,0.08);

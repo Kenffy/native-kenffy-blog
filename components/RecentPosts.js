@@ -15,7 +15,7 @@ export default function RecentPosts({navigation}) {
   useEffect(()=>{
     const loadAllPosts = async()=>{
       setLoading(true);
-      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 2}
+      const filter = {category: "All", sort: "Date DESC", status: "Public", limit: 12}
       const res = await getAllPostsAsync(filter);
       if(res){
         setPosts(res.posts);

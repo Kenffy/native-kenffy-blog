@@ -83,7 +83,7 @@ export default function SingleScreen({navigation, route}) {
 
   return (
       <Container>
-        <ButtonBack onPress={()=>navigation.goBack()}>
+        <ButtonBack onPress={()=>navigation.pop()}>
           <Ionicons name="arrow-back-outline" size={25} style={{color: 'whitesmoke', opacity: 0.6}}/>
         </ButtonBack>
         <ScrollView>

@@ -33,15 +33,16 @@ flex-direction: row;
 align-items: center;
 justify-content: space-between;
 background-color: #fff;
-padding: 10px;
+height: 60px;
+padding: 0 10px;
 border-bottom-width: 1px;
 border-bottom-color: rgba(0,0,0,0.1);
 box-shadow:0 .5rem 1.5rem rgba(0,0,0,.5);
 `;
 
 const Button = styled.TouchableOpacity`
-height: 40px;
-width: 40px;
+height: 35px;
+width: 35px;
 align-self: center;
 justify-content: center;
 align-items: center;
@@ -66,7 +67,7 @@ border-radius: 3px;
 
 const SearchInput = styled.TextInput`
 width: 75%;
-font-size: 15px;
+font-size: 14px;
 color: #444;
-padding: 2px 10px;
+padding: 0px 10px;
 `;

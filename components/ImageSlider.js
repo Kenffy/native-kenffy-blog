@@ -13,22 +13,22 @@ export default function ImageSlider({images, height, enableButtons=false, autopl
         <View
           style={{
             backgroundColor: 'rgba(255,255,255,.3)',
-            width: 8,
-            height: 8,
-            borderRadius: 7,
-            marginLeft: 7,
-            marginRight: 7
+            width: 7,
+            height: 7,
+            borderRadius: 5,
+            marginLeft: 4,
+            marginRight: 4
           }}/>
         }
         activeDot={
             <View
               style={{
                 backgroundColor: 'teal',
-                width: 8,
-                height: 8,
-                borderRadius: 7,
-                marginLeft: 7,
-                marginRight: 7
+                width: 7,
+                height: 7,
+                borderRadius: 5,
+                marginLeft: 4,
+                marginRight: 4
               }}
             />
           }
