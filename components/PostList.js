@@ -94,6 +94,11 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
         renderItem={renderItem}
         keyExtractor={item => item?.id}
       />
+      {loading &&
+      <LoadingView>
+        <LoadingText>Please wait...</LoadingText>
+      </LoadingView>
+      }
     </Container>
   )
 };
@@ -102,8 +107,15 @@ const Container = styled.View`
 flex: 1;
 `;
 
-const Header = styled.Text`
-padding: 10px;
+const LoadingView = styled.View`
+justify-content: center;
+padding: 20px 0;
+`;
+
+const LoadingText = styled.Text`
+text-align: center;
+font-size: 20px;
+color: teal;
 `;
 
 const List = styled.FlatList`

@@ -9,7 +9,7 @@ import BloggerScreen from '../screens/BloggerScreen';
 import SettingScreen from '../screens/SettingScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import WriteScreen from '../screens/WriteScreen';
-import { HomeStack } from './Stacks';
+import { BloggerStack, HomeStack } from './Stacks';
 
 
 const Drawer = createDrawerNavigator();
@@ -41,7 +41,7 @@ const AuthStack = () => {
         
         <Drawer.Screen
           name="EXPLORE"
-          component={BloggerScreen}
+          component={BloggerStack}
           options={{
             drawerIcon: ({color}) => (
               <Ionicons name="earth" size={22} color={color} />

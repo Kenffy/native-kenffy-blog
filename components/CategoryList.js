@@ -20,7 +20,7 @@ export default function CategoryList({categories}) {
 
 
 const Container = styled.View`
-
+flex: 1;
 `;
 
 const Wrapper = styled.View`

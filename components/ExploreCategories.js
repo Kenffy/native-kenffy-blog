@@ -17,7 +17,7 @@ export default function ExploreCategories({navigation}) {
 const Container = styled.ScrollView`
 padding: 10px;
 background-color: rgba(0,0,0,0.05);
-padding-bottom: 30px;
+flex: 1;
 `;
 
 const Header = styled.Text`

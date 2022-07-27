@@ -23,11 +23,11 @@ export default function UserCard({user}) {
       <Infos>{user?.subscribers.length} {user?.subscribers.length > 1? "Subscribers": "Subscriber"}</Infos>
 
       <Stars>
-        <Ionicons name="star" size={14} style={{color: 'teal'}}/>
-        <Ionicons name="star-half" size={14} style={{color: 'teal'}}/>
-        <Ionicons name="star-outline" size={14} style={{color: 'teal'}}/>
-        <Ionicons name="star-outline" size={14} style={{color: 'teal'}}/>
-        <Ionicons name="star-outline" size={14} style={{color: 'teal'}}/>
+        <Ionicons name="star" size={12} style={{color: 'teal'}}/>
+        <Ionicons name="star-half" size={12} style={{color: 'teal'}}/>
+        <Ionicons name="star-outline" size={12} style={{color: 'teal'}}/>
+        <Ionicons name="star-outline" size={12} style={{color: 'teal'}}/>
+        <Ionicons name="star-outline" size={12} style={{color: 'teal'}}/>
       </Stars>
 
       <TouchableOpacity onPress={handleExplore}>
@@ -70,8 +70,8 @@ border-color: rgba(0,0,0,0.08);
 `;
 
 const Username = styled.Text`
-font-size: 16px;
-font-weight: 500;
+font-size: 15px;
+font-weight: 600;
 padding: 0 5px;
 color: #444;
 text-align: center;
@@ -79,6 +79,8 @@ text-align: center;
 
 const Infos = styled.Text`
 margin-top: 5px;
+font-size: 12px;
+color: #777;
 `;
 
 const Stars = styled.View`
@@ -92,11 +94,12 @@ background-color: rgba(0,0,0,0.1);
 const Button = styled.View`
 margin-top: 15px;
 margin-bottom: 10px;
-padding: 8px 15px;
+padding: 6px 15px;
 border-radius: 5px;
 background-color: teal;
 `;
 
 const ButtonText = styled.Text`
 color: #fff;
+font-size: 12px;
 `;
