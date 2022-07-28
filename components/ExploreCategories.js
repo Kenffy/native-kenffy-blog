@@ -3,44 +3,22 @@ import React from 'react';
 import styled from "styled-components/native";
 import { CategoryData } from '../seed/CategoryData';
 import CategoryList from './CategoryList';
+import TopBar from './TopBar';
 
 export default function ExploreCategories({navigation}) {
-  const categories = CategoryData.filter(c=>c.name !== "All" && c.name !== "Others")
+  const categories = CategoryData.filter(c=>c.name !== "All" && c.name !== "Others");
+
+  const title = 'Explore All Categories';
+
   return (
     <Container>
-      <Header>Explore All Categories</Header>
+      <TopBar navigation={navigation} title={title} enableSearch={true}/>
       <CategoryList categories={categories}/>
     </Container>
   )
 };
 
-const Container = styled.ScrollView`
-padding: 10px;
+const Container = styled.View`
 background-color: rgba(0,0,0,0.05);
 flex: 1;
-`;
-
-const Header = styled.Text`
-padding: 10px 0;
-font-size: 24px;
-font-weight: 900;
-text-align: center;
-color: #444;
-text-transform: uppercase;
-`;
-
-const MoreButton = styled.TouchableOpacity`
-align-self: center;
-justify-content: center;
-background-color: #444;
-width: 150px;
-padding: 10px;
-border-radius: 5px;
-margin-top: 15px;
-`;
-
-const ButtonText = styled.Text`
-text-align: center;
-text-transform: uppercase;
-color: #fff;
 `;

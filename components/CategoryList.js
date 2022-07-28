@@ -3,17 +3,22 @@ import React from 'react';
 import styled from "styled-components/native";
 
 export default function CategoryList({categories}) {
+
+  const renderItem = ({ item }) => (
+    <CategoryWrapper>
+      <Category source={item?.icon} resizeMode="cover">
+        <CategoryName>{item?.name}</CategoryName>
+      </Category>
+    </CategoryWrapper>
+  );
   return (
     <Container>
-      <Wrapper>
-        {categories.map((cat)=>(
-            <CategoryWrapper key={cat?.id}>
-                <Category source={cat?.icon} resizeMode="cover">
-                    <CategoryName>{cat?.name}</CategoryName>
-                </Category>
-            </CategoryWrapper>
-        ))}
-      </Wrapper>
+      <List
+        data={categories}
+        numColumns={2}
+        renderItem={renderItem}
+        keyExtractor={item => item?.id}
+      />
     </Container>
   )
 };
@@ -23,9 +28,9 @@ const Container = styled.View`
 flex: 1;
 `;
 
-const Wrapper = styled.View`
-flex-direction: row;
-flex-wrap: wrap;
+const List = styled.FlatList`
+padding: 10px;
+padding-bottom: 10px;
 `;
 
 const CategoryWrapper = styled.TouchableOpacity`
