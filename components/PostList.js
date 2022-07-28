@@ -85,6 +85,16 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
     const renderItem = ({ item }) => (
         <PostCard post={item} navigation={navigation}/>
     );
+
+    const LoadinScreen = ()=>(
+      <>
+      {loading &&
+        <LoadingView>
+          <LoadingText>Please wait...</LoadingText>
+        </LoadingView>
+      }
+      </>
+    )
     
   return (
     <Container>
@@ -93,18 +103,16 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
         data={posts}
         renderItem={renderItem}
         keyExtractor={item => item?.id}
+        onEndReachedThreshold={0.2}
+        onEndReached={handleLoadMore}
+        ListFooterComponent={LoadinScreen}
       />
-      {loading &&
-      <LoadingView>
-        <LoadingText>Please wait...</LoadingText>
-      </LoadingView>
-      }
     </Container>
   )
 };
 
 const Container = styled.View`
-flex: 1;
+
 `;
 
 const LoadingView = styled.View`
@@ -120,5 +128,4 @@ color: teal;
 
 const List = styled.FlatList`
 padding: 10px;
-margin-bottom: 30px;
 `;

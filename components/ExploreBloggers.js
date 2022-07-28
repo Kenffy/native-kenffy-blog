@@ -52,6 +52,16 @@ export default function ExploreBloggers({navigation}) {
     <UserCard user={item} navigation={navigation}/>
   );
 
+  const LoadinScreen = ()=>(
+    <>
+    {loading &&
+      <LoadingView>
+        <LoadingText>Please wait...</LoadingText>
+      </LoadingView>
+    }
+    </>
+  )
+
   return (
     <Container>
       <TopBar navigation={navigation} title={title} enableSearch={true}/>
@@ -60,12 +70,10 @@ export default function ExploreBloggers({navigation}) {
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={item => item?.id}
+        onEndReachedThreshold={0.2}
+        onEndReached={handleLoadMore}
+        ListFooterComponent={LoadinScreen}
       />
-      {loading &&
-      <LoadingView>
-        <LoadingText>Please wait...</LoadingText>
-      </LoadingView>
-      }
     </Container>
   )
 };
@@ -89,4 +97,20 @@ color: teal;
 const List = styled.FlatList`
 padding: 10px;
 padding-bottom: 10px;
+`;
+
+const MoreButton = styled.TouchableOpacity`
+align-self: center;
+justify-content: center;
+background-color: #444;
+width: 150px;
+padding: 10px;
+border-radius: 5px;
+margin-top: 15px;
+`;
+
+const ButtonText = styled.Text`
+text-align: center;
+text-transform: uppercase;
+color: #fff;
 `;
