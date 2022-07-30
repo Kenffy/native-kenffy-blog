@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { CategoryData } from '../seed/CategoryData';
 import styled from "styled-components/native";
 import { getAllPostsAsync, getPostsByUserIdAsync } from '../services/firestoreServices';
 import PostCard from './PostCard';
 import CategoryFilter from './CategoryFilter';
+
 
 export default function PostList({ishome, isprofile, userId, user, navigation}) {
     const status = [
@@ -41,6 +42,7 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
     
       useEffect(()=>{
         const loadAllPosts = async()=>{
+          console.log('use effect')
           setLoading(true);
           const filter = {category: currCategory?.name, sort: currFilter?.name, status: currStatus.name, lastVisible: null}
           let res = null;
@@ -63,6 +65,8 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
       },[ishome, isprofile, userId, user, currStatus, currFilter, currCategory]);
     
       const handleLoadMore = async()=>{
+        console.log('load more')
+        if (loading) return;
         if(posts.length === postSize) return;
         setLoading(true);
         const filter = {category: currCategory?.name, sort: currFilter?.name, status: currStatus.name, lastVisible: last, limit: 10}
@@ -75,8 +79,9 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
           res = await getPostsByUserIdAsync(userId, user?.uid, filter);
         }
         if(res){
-          setPosts([...posts, ...res.posts]);
+          setPosts((prev)=>[...prev, ...res.posts]);
           setLast(res.lastVisible);
+          setPostSize(res.size);
           setHasMore((res.posts.length < res.size));
           setLoading(false);
         }
@@ -95,24 +100,67 @@ export default function PostList({ishome, isprofile, userId, user, navigation}) 
       }
       </>
     )
+
+    console.log(posts?.length)
+
+    const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+      const paddingToBottom = 0;
+      return layoutMeasurement.height + contentOffset.y >=
+        contentSize.height - paddingToBottom;
+    };
     
   return (
     <Container>
       <CategoryFilter />
-      <List
+      <Wrapper
+      onScroll={({nativeEvent}) => {
+        if (isCloseToBottom(nativeEvent)) {
+          console.log('scroll view end reached.')
+          if(posts.length < postSize){
+            handleLoadMore();
+          }
+        }
+      }}
+      scrollEventThrottle={100}>
+
+        {posts.length > 0 &&
+        <PostWrapper>
+          {posts.map(post=>
+          (<PostCard post={post} key={post?.id} navigation={navigation}/>)
+          )}
+        </PostWrapper>
+        }
+        {loading &&
+        <LoadingView>
+          <LoadingText>Please wait...</LoadingText>
+        </LoadingView>
+        }
+      </Wrapper>
+      {/* <List
         data={posts}
         renderItem={renderItem}
         keyExtractor={item => item?.id}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         onEndReached={handleLoadMore}
+        onScrollBeginDrag={()=>{stopLoadMore = false;}}
         ListFooterComponent={LoadinScreen}
-      />
+        getItemLayout={getItemLayout}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={5}
+      /> */}
     </Container>
   )
 };
 
 const Container = styled.View`
+flex: 1;
+`;
 
+const Wrapper = styled.ScrollView`
+padding: 10px;
+`;
+
+const PostWrapper = styled.View`
 `;
 
 const LoadingView = styled.View`
@@ -128,4 +176,5 @@ color: teal;
 
 const List = styled.FlatList`
 padding: 10px;
+padding-bottom: 10px;
 `;

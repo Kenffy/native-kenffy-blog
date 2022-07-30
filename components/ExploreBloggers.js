@@ -98,19 +98,3 @@ const List = styled.FlatList`
 padding: 10px;
 padding-bottom: 10px;
 `;
-
-const MoreButton = styled.TouchableOpacity`
-align-self: center;
-justify-content: center;
-background-color: #444;
-width: 150px;
-padding: 10px;
-border-radius: 5px;
-margin-top: 15px;
-`;
-
-const ButtonText = styled.Text`
-text-align: center;
-text-transform: uppercase;
-color: #fff;
-`;

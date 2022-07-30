@@ -9,18 +9,19 @@ export default function RecentBloggers({navigation}) {
   const [loading, setLoading] = useState([]);
 
   useEffect(()=>{
-    const loadAllUsers = async()=>{
-      setLoading(true);
-      const filter = {limit: 12,
-                      lastVisible: null,}
-      const res = await getAllUsersAsync(filter);
-      if(res){
-          setUser(res.users);
-          setLoading(false);
-        }
-    }
     loadAllUsers();
   },[]);
+
+  const loadAllUsers = async()=>{
+    setLoading(true);
+    const filter = {limit: 12,
+                    lastVisible: null,}
+    const res = await getAllUsersAsync(filter);
+    if(res){
+      setUser(res.users);
+      setLoading(false);
+    }
+  }
 
 
   return (

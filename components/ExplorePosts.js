@@ -1,4 +1,4 @@
-
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from "styled-components/native";
 import PostList from "./PostList";
 import TopBar from "./TopBar";
