@@ -49,7 +49,7 @@ export default function PostCard({post, navigation}) {
   }, []);
 
   const handleOnPress = ()=>{
-    navigation.navigate('Single', {id: post?.id});
+    navigation.navigate('Single', post);
   }
 
   return (

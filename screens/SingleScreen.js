@@ -1,54 +1,46 @@
-import { StyleSheet, Dimensions, ScrollView, RefreshControl } from 'react-native';
-import React, { useEffect, useState, useCallback } from 'react';
+import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React, { useCallback, Component } from 'react';
 import styled from "styled-components/native";
 import HTMLView from 'react-native-htmlview';
 import ImageSlider from '../components/ImageSlider';
 import YoutubePlayer from "react-native-youtube-iframe";
 import { Image } from 'react-native-expo-image-cache';
-import { getPostAsync } from '../services/firestoreServices';
 import { CategoryData } from '../seed/CategoryData';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-//import Avatar from '../components/Avatar';
 import OtherPosts from '../components/OtherPosts';
 import PostComments from '../components/PostComments';
 
 const width = Dimensions.get('window').width;
 const height = width / 1.7;
 
-export default function SingleScreen({navigation, route}) {
+export class SingleScreen extends Component {
 
-  const defaultImg = require('../assets/images/noProfile.png');
+  constructor(props){
+    super(props);
 
-  const postId = route?.params.id;
-  const [post, setPost] = useState(null);
-  const [videoId, setVideoId] = useState('');
-  const [playing, setPlaying] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(()=>{
-    const loadData = async()=>{
-      try {
-        setLoading(true);
-        const res_post = await getPostAsync(postId);
-        //const res_user = await getUserAsync(authorId);
-        if(res_post){
-          setPost(res_post);
-          if(res_post?.video){
-            const tmpId = getVideoId(res_post?.video);
-            setVideoId(tmpId);
-          }
-          //setLiked(res_post.likes.includes(user?.uid));
-          setLoading(false);
-        }
-        //res_user && setAuthor(res_user);
-      } catch (error) {
-        console.log(error);
-      }
+    this.state = {
+      post: this.props.route.params,
+      postId: this.props.route.params?.id,
+      videoId: null,
+      playing: false,
+      loading: true,
+      defaultImg: require('../assets/images/noProfile.png'),
+      category: CategoryData[1],
     }
-    postId && loadData();
-  },[postId])
+  }
 
-  const getVideoId = (url) =>{
+  componentDidMount(){
+    if(this.state.post?.video){
+      const tmpId = this.getVideoId(this.state.post?.video);
+      const category = CategoryData.find(c=>c.name === this.state.post?.category) || CategoryData[1];
+      this.setState({videoId: tmpId});
+      this.setState({category: category});
+      this.setState({loading: false});
+    }
+  }
+
+
+  getVideoId = (url) =>{
     if(url.includes('watch?v=')){
       const tmpId = url.split('watch?v=')[1];
       if(tmpId.includes('&t=')){
@@ -68,22 +60,23 @@ export default function SingleScreen({navigation, route}) {
     }
   }
 
-  const category = CategoryData.find(c=>c.name === post?.category) || CategoryData[1];
 
-  const onStateChange = useCallback((state) => {
+
+  onStateChange = ((state) => {
     if (state === "ended") {
       setPlaying(false);
+      this.setState({playing: false});
       Alert.alert("video has finished playing!");
     }
-  }, []);
+  });
 
-  // const onRefresh = () => {
-  //   navigation.navigate('Single', {id: post?.id});
-  // }
 
-  return (
-      <Container>
-        <ButtonBack onPress={()=>navigation.pop()}>
+
+  render() {
+    const post = this.state.post;
+      return(
+        <Container>
+        <ButtonBack onPress={()=>this.props.navigation.pop()}>
           <Ionicons name="arrow-back-outline" size={25} style={{color: 'whitesmoke', opacity: 0.6}}/>
         </ButtonBack>
         <ScrollView>
@@ -95,7 +88,7 @@ export default function SingleScreen({navigation, route}) {
           <>
           {post?.images.length === 0 ?
           <CategoryImage height={height}
-            source={category?.icon}/>
+            source={this.state.category?.icon}/>
           :
           <Image 
             style={{height}}
@@ -104,7 +97,7 @@ export default function SingleScreen({navigation, route}) {
           </>        
         }
 
-          {loading?
+          {this.state.loading?
           <LoadingView>
             <LoadingText>Please wait...</LoadingText>
           </LoadingView>
@@ -118,7 +111,7 @@ export default function SingleScreen({navigation, route}) {
               preview={{uri: post?.profile.url}}
               uri={post?.profile.url} />
               :
-              <LocalAvatar source={defaultImg} />
+              <LocalAvatar source={this.state.defaultImg} />
               }
               <Username>{post?.username}</Username>
             </UserInfos>
@@ -138,12 +131,12 @@ export default function SingleScreen({navigation, route}) {
             value={post?.body}/>
           </BodyWrapper>
 
-          {videoId.length > 0 &&
+          {this.state?.videoId.length > 0 &&
           <YoutubePlayer
           height={height}
-          play={playing}
-          videoId={videoId}
-          onChangeState={onStateChange}/>}
+          play={this.state.playing}
+          videoId={this.state.videoId}
+          onChangeState={this.onStateChange}/>}
 
           {post?.tags.length > 0 && 
           <TagsWrapper>
@@ -182,16 +175,17 @@ export default function SingleScreen({navigation, route}) {
 
           <SubWrapper>
             <SubTitle>Other Articles</SubTitle>
-            {post && <OtherPosts navigation={navigation} userId={post?.userId} postId={post?.id}/>}
+            {post && <OtherPosts navigation={this.props.navigation} userId={post?.userId} postId={post?.id}/>}
           </SubWrapper>
         </>
         }
         </ScrollView>
       </Container>
-    
-  )
+      )
+    }
 };
 
+export default SingleScreen;
 
 const styles = StyleSheet.create({
   p: {

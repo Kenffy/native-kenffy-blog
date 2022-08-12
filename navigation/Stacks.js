@@ -15,10 +15,7 @@ const Stack = createStackNavigator();
 export const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={HomeScreen} 
-        options={({route}) => ({
-          id: route.params?.id,
-        })}/>
+      <Stack.Screen name="Home" component={HomeScreen}/>
       <Stack.Screen name="Posts" component={ExplorePosts}/>
       <Stack.Screen name="Bloggers" component={ExploreBloggers}/>
       <Stack.Screen name="Categories" component={ExploreCategories}/>
@@ -32,10 +29,7 @@ export const HomeStack = () => {
 export const BloggerStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Bloggers" component={BloggerScreen} 
-        options={({route}) => ({
-          id: route.params?.id,
-        })}/>
+      <Stack.Screen name="Bloggers" component={BloggerScreen}/>
       <Stack.Screen name="Profile" component={ProfileScreen}/>
     </Stack.Navigator>
   );
